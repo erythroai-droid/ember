@@ -22,7 +22,7 @@ export const BRAND = 'EMBER';
 export const MODEL = 'Steakhouse';
 
 /** Production URL: canonical, Open Graph, sitemap. NEXT_PUBLIC_SITE_URL overrides it per Vercel environment. */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ember-steakhouse.erythro.ai').replace(/\/$/, '');
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ember.erythro.ai').replace(/\/$/, '');
 
 /** Page title / description (also the Open Graph + Twitter card text). */
 export const TITLE = `${BRAND} ${MODEL} — dry-aged steaks cooked over live fire`;

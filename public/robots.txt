@@ -35,5 +35,5 @@ Disallow: /
 User-Agent: Applebot-Extended
 Disallow: /
 
-Host: https://ember-steakhouse.erythro.ai
-Sitemap: https://ember-steakhouse.erythro.ai/sitemap.xml
+Host: https://ember.erythro.ai
+Sitemap: https://ember.erythro.ai/sitemap.xml
