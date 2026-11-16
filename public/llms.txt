@@ -1,0 +1,29 @@
+# EMBER Steakhouse
+
+> EMBER Steakhouse is a steak restaurant that cooks 28-day dry-aged marbled beef over a live charcoal grill (up to 400 °C) and serves it on hot cast iron. The website is a scroll-driven landing built by Erythro.ai.
+
+- **Restaurant:** EMBER Steakhouse
+- **Website:** https://ember-steakhouse.erythro.ai
+- **Cuisine:** steakhouse, charcoal grill
+- **Signature dish:** 350 g ribeye, 28-day dry-aged, with rosemary, coal-roasted garlic, grilled cherry tomatoes, fleur de sel and herb butter
+- **Steaks:** ribeye 350 g, striploin 300 g, filet mignon 200 g, tomahawk 1.2 kg (for 2–3 guests)
+- **Hours:** daily 12:00–00:00
+- **Reservations:** "Reserve" button on the site
+- **Languages:** English, Russian, Hebrew, Arabic
+- **Agency:** Erythro.ai — https://erythro.ai
+
+## Page sections
+
+- [#top](https://ember-steakhouse.erythro.ai/#top): Born of fire: the steak on the charcoal grill
+- [#craft](https://ember-steakhouse.erythro.ai/#craft): The art of aging: 28-day dry aging, 400 °C coals, 8 minutes of rest
+- [#cuts](https://ember-steakhouse.erythro.ai/#cuts): Steak cuts: ribeye 350 g, striploin 300 g, filet mignon 200 g, tomahawk 1.2 kg
+- [#feast](https://ember-steakhouse.erythro.ai/#feast): Cast-iron service, garnishes and wine pairing
+- [#experience](https://ember-steakhouse.erythro.ai/#experience): Taste the fire
+- [#gallery](https://ember-steakhouse.erythro.ai/#gallery): Photo gallery: embers, sear marks, medium-rare cut, cast-iron plating
+- [#contact](https://ember-steakhouse.erythro.ai/#contact): Address, hours, phone and table reservation
+
+## Related
+
+- [Erythro.ai](https://erythro.ai)
+- [robots.txt](https://ember-steakhouse.erythro.ai/robots.txt)
+- [sitemap.xml](https://ember-steakhouse.erythro.ai/sitemap.xml)

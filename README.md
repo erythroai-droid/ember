@@ -1,0 +1,69 @@
+# EMBER Steakhouse — scroll-film landing (built from AI Smart Card)
+
+Layout differs from the template's assembly pattern: **one film fixed behind the page, scrubbed by the scroll; the scenes scroll over it in normal flow** (reference video), side rails, a centred finale, then the contact block slides over the last frame.
+
+| What | Where |
+|---|---|
+| Film engine (fixed canvas, frame from section positions, cross-fade, off-centre on wide screens) | `components/Film.tsx` |
+| Scenes + side rails | `components/Scenes.tsx`, `app/page.tsx` |
+| Scene → frame mapping, menu cuts | `SCENES`, `CUTS` in `lib/site.ts` |
+| Copy (RU source → EN/HE/AR via Translater) | `i18n/*.txt` → `npm run i18n` |
+| Styles | `app/globals.css` (block "EMBER — scroll film layout") |
+
+Frames: `npm run frames -- Video/1920x1080.mp4 --every 2` (landscape 768/1280/1920) plus the phone pack:
+`ffmpeg -i Video/1920x1080.mp4 -vf "select='not(mod(n,2))',setpts=N/TB,crop=608:1080:656:0,scale=540:960" -fps_mode passthrough -c:v libwebp -quality 55 public/frames/portrait/540/frame_%04d.webp`
+Then delete the still tail (frames after the motion ends — 212+ for this video), set `FRAMES` and **bump `FRAMES_VERSION`** in `lib/site.ts`: frames are cached as immutable, so without a new version returning browsers mix old and new frames.
+
+Preflight lists the removed assembly files / keys (Assembly, Sections, p1n…) as missing — expected for this layout.
+
+---
+
+# AI Smart Card (`ai-smart-card`)
+
+Next.js 15 + React 19 + GSAP scroll-assembled product landing, production- and ad-ready (pattern from [ORA 60A](https://ora60a.erythro.ai)).
+
+Stub media is included so `npm run build` works out of the box. Replace frames from the client video before launch.
+
+## Quick start
+
+```bash
+npm install
+npm run new-site -- acme-x1 "ACME" "X1" https://acme-x1.erythro.ai
+npm run dev     # http://localhost:3200
+npm run build && npm start
+```
+
+## Customize
+
+| Step | Where |
+|---|---|
+| Brand / model / URL / frame timing / mobile hero | [`lib/site.ts`](lib/site.ts) |
+| Apply slug to package + domain files | `npm run new-site -- <slug> "<Brand>" "<Model>" [url]` |
+| Copy (EN/RU/HE/AR) | `i18n/*.txt` → `npm run i18n` |
+| Extract frames from video | `npm run frames -- path/to/video.mov` then `STUB_MEDIA=false` |
+| Phone hero clip (9 s portrait) | `npm run mobile-hero -- path/to/video.mov` |
+| Palette | `app/globals.css` CSS variables |
+| Env (demo card, GA4, Pixel, lead webhook) | [`.env.example`](.env.example) |
+| Lead form → n8n → Telegram | `scripts/deploy-n8n-lead.py` |
+| Ad footage (.webm) | `npm run record-demo -- --mobile --lang he` |
+| **Pre-deploy check vs template** | `npm run preflight` (on demand; recommendations only, never blocks) |
+| Agent files | `public/robots.txt`, `public/llms.txt`, `app/sitemap.ts` |
+| AI search visibility skill | `.agents` / `.cursor` / `.claude` / `.grok` `skills/ai-search-visibility` (+ `docs/seo/…`, `AGENTS.md`, `GEMINI.md`, `CLAUDE.md`) — Cursor, Claude, Antigravity, Grok; load when creating/auditing the public site, robots/sitemap/WAF/SEO meta, or landing copy |
+
+Full client checklist (media, ads/UTM, events, handover, smoke test): [`SITE.md`](SITE.md).
+
+## Stack notes (do not regress)
+
+- Fonts: `@fontsource/inter` + `@fontsource/heebo` + local Arabic — **not** `next/font/google` (Next 15.5 flake).
+- Sections with video bg keep opaque `--panel` under `.has-vbg` so missing mp4 cannot punch a hole.
+- `.gitignore` uses `/Video/` (repo-root only), never bare `Video/` on Windows; web cuts in `public/video` are committed.
+- Every demo ships the WhatsApp card + ad source in the message + Vercel Analytics, GA4 and Meta Pixel.
+- Ship `/robots.txt`, `/llms.txt`, `/sitemap.xml`, OG image and `@vercel/speed-insights`.
+- For AI Overviews / Copilot / ChatGPT / Claude / Perplexity visibility, follow the bundled skill `ai-search-visibility` (search bots ≠ training bots; HTML answers first).
+
+## Deploy
+
+1. Push this folder as its own GitHub repo (or monorepo subdirectory with Vercel Root Directory).
+2. Import on Vercel → Framework Next.js → Production Branch `main`; env from `.env.example` as needed.
+3. Cloudflare DNS: `CNAME <slug> → <project>.vercel-dns-0xx.com` (DNS only / grey cloud).
+4. Before the first push: `npm run preflight -- --build`; after the preview deploy: `npm run preflight -- --url <preview-url>`. Findings are recommendations — fix what you choose. See `SITE.md` §9.
