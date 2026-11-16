@@ -59,7 +59,7 @@ export default function Film({ onLoadProgress, onScene }: Props) {
     const reduced = prefersReducedMotion();
     let pack: Pack = pickPack();
     let imgs: (HTMLImageElement | null)[] = [];
-    let gen = 0, cssW = 0, cssH = 0, cur = 0, drawn = -1, scene = -1, raf = 0, first = true, last = 0, introAt = 0;
+    let gen = 0, cssW = 0, cssH = 0, cur = 0, drawn = -1, scene = -1, raf = 0, first = true, last = 0, introAt = 0, painted = false;
     const intro = (now: number) => (reduced || !introAt ? 0 : INTRO_F * introEase(Math.min(1, Math.max(0, (now - introAt) / INTRO_MS))));
 
     const load = () => {
@@ -122,6 +122,10 @@ export default function Film({ onLoadProgress, onScene }: Props) {
       ctx.globalAlpha = 1; ctx.fillStyle = BG; ctx.fillRect(0, 0, cssW, cssH);
       paint(ja, 1);
       feather();
+      if (!painted) {                                                          // first real picture on screen → metrics
+        painted = true;
+        window.dispatchEvent(new CustomEvent('film-first-frame', { detail: Math.round(performance.now()) }));
+      }
       ctx.globalAlpha = 1;
     };
     const resize = () => {

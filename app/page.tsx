@@ -7,6 +7,7 @@ import ScrollTop from '@/components/ScrollTop';
 import AiChat from '@/components/AiChat';
 import StudioBar from '@/components/StudioBar';
 import Film from '@/components/Film';
+import Metrics from '@/components/Metrics';
 import { Contact, Craft, Cuts, Experience, Feast, Gallery, Hero, Rails } from '@/components/Scenes';
 import { gsap, prefersReducedMotion, ScrollSmoother, SmoothScroll, ScrollTrigger, useScrollReady } from '@/lib/scroll';
 
@@ -23,6 +24,7 @@ export default function Page() {
   return (
     <>
       <Preloader pct={pct} />
+      <Metrics />
       <Film onLoadProgress={(v) => setPct((p) => Math.max(p, v))} onScene={setActive} />
       <Header />
       <Rails active={active} />

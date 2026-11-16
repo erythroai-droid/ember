@@ -14,6 +14,10 @@ Frames: `npm run frames -- Video/1920x1080.mp4 --every 2` (landscape 768/1280/19
 `ffmpeg -i Video/1920x1080.mp4 -vf "select='not(mod(n,2))',setpts=N/TB,crop=608:1080:656:0,scale=540:960" -fps_mode passthrough -c:v libwebp -quality 55 public/frames/portrait/540/frame_%04d.webp`
 Then delete the still tail (frames after the motion ends — 212+ for this video), set `FRAMES` and **bump `FRAMES_VERSION`** in `lib/site.ts`: frames are cached as immutable, so without a new version returning browsers mix old and new frames.
 
+**Ad-traffic metrics** (`components/Metrics.tsx`, once per page view, with the ad source): `film_first_frame {ms}`, `first_scroll {seconds}`, `engaged_10s`, `engaged_visit {via}` → GA4 + Vercel; `EngagedVisit` → Meta Pixel (custom).
+In Meta Events Manager create a Custom Conversion on `EngagedVisit` and optimise the campaign for it (leads are too few to learn from). In GA4 mark `generate_lead` as a key event and exclude internal traffic.
+Ad links: `?utm_source=meta&utm_medium=paid&utm_campaign=ember_demo_he&utm_term={{placement}}&utm_content={{ad.name}}` (`_he` opens Hebrew).
+
 Preflight lists the removed assembly files / keys (Assembly, Sections, p1n…) as missing — expected for this layout.
 
 ---
