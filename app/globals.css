@@ -482,3 +482,28 @@ html.static .tp-drag{cursor:pointer}
 /* footer: deeper veil over the hall video */
 .ctc-veil{background:linear-gradient(180deg,rgba(8,6,5,.96) 0%,rgba(8,6,5,.86) 28%,rgba(8,6,5,.84) 60%,rgba(8,6,5,.97) 100%),radial-gradient(80% 60% at 0% 100%,rgba(224,103,42,.10),transparent 60%)}
 @media (max-width:900px){.ctc-veil{background:linear-gradient(180deg,rgba(8,6,5,.96),rgba(8,6,5,.88) 40%,rgba(8,6,5,.97))}}
+
+/* ---------- headings a notch larger ---------- */
+.scn-in{width:min(600px,100%)}
+.scn-h{font-size:clamp(46px,6vw,98px)}
+.scn-hero .scn-h{font-size:clamp(52px,6.8vw,112px)}
+.gal-t-copy .scn-h{font-size:clamp(42px,4.9vw,80px)}
+.exp-h{font-size:clamp(44px,6.2vw,102px)}
+/* Hebrew: Heebo reads smaller than the Latin/Cyrillic serif at the same size — the hero title gets a real step up */
+html[lang=he] .scn-h{font-size:clamp(52px,6.6vw,108px);font-weight:600;line-height:1.04}
+html[lang=he] .scn-hero .scn-h{font-size:clamp(66px,8.4vw,140px);font-weight:700;line-height:1}
+html[lang=he] .exp-h{font-size:clamp(50px,7vw,112px);font-weight:600}
+
+/* ---------- phones: darker film so the copy reads over the steak ---------- */
+@media (max-width:900px){
+  .film-cv{filter:brightness(.72) saturate(.95)}
+  .film-shade,[dir=rtl] .film-shade{background:
+    linear-gradient(to bottom,rgba(0,0,0,.62) 0%,rgba(0,0,0,.38) 18%,rgba(8,6,5,.42) 34%,rgba(8,6,5,.82) 52%,rgba(8,6,5,.94) 72%,rgba(8,6,5,.97) 100%)}
+  .scn-h{font-size:clamp(38px,11.2vw,62px)}
+  .scn-hero .scn-h{font-size:clamp(42px,12.4vw,68px)}
+  .exp-h{font-size:clamp(36px,11vw,62px)}
+  html[lang=he] .scn-h{font-size:clamp(44px,12.8vw,70px)}
+  html[lang=he] .scn-hero .scn-h{font-size:clamp(54px,15.5vw,86px)}
+  html[lang=he] .exp-h{font-size:clamp(42px,12.4vw,68px)}
+  .scn-p{color:#e6ddd1}
+}
