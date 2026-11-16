@@ -106,7 +106,7 @@ export const DICTS = {
     "demo_p": "This is a interactive demonstration. To commission a bespoke digital experience for your brand, connect with us.",
     "demo_wa": "Chat on WhatsApp",
     "demo_open": "Get in touch",
-    "demo_msg": "Hello! I'd like to discuss a custom web experience for my brand after viewing the {name} demo.",
+    "demo_msg": "Hi! I saw the {name} demo and I'd love a site like this for my business.",
     "gallery_s": "Gallery",
     "gallery_h1": "Fire",
     "gallery_h2": "in the Details",
@@ -119,7 +119,10 @@ export const DICTS = {
     "gal5": "Sliced steak with fleur de sel",
     "gal_open": "Open photo",
     "gal_prev": "Previous photo",
-    "gal_next": "Next photo"
+    "gal_next": "Next photo",
+    "demo_strip": "Demo · Erythro.ai",
+    "demo_cta": "I want a site like this",
+    "demo_more": "View more work"
   },
   ru: {
     "loading": "Загрузка...",
@@ -227,7 +230,7 @@ export const DICTS = {
     "demo_p": "Это демонстрационный проект. Чтобы обсудить сайт для вашего бренда, свяжитесь с нами.",
     "demo_wa": "Написать в WhatsApp",
     "demo_open": "Связаться с нами",
-    "demo_msg": "Здравствуйте! Хочу обсудить сайт для своего бренда. Пишу после просмотра демо {name}.",
+    "demo_msg": "Здравствуйте! Увидел демо {name} — хочу такой же сайт для своего бизнеса.",
     "gallery_s": "Галерея",
     "gallery_h1": "Огонь",
     "gallery_h2": "в деталях",
@@ -240,7 +243,10 @@ export const DICTS = {
     "gal5": "Нарезка с флёр де сель",
     "gal_open": "Открыть фото",
     "gal_prev": "Предыдущее фото",
-    "gal_next": "Следующее фото"
+    "gal_next": "Следующее фото",
+    "demo_strip": "Демо · Erythro.ai",
+    "demo_cta": "Хочу такой сайт",
+    "demo_more": "Смотреть другие работы"
   },
   he: {
     "loading": "טוען...‏",
@@ -348,7 +354,7 @@ export const DICTS = {
     "demo_p": "זוהי גרסת הדגמה. מעוניינים באתר מתקדם למותג שלכם? דברו איתנו.‏",
     "demo_wa": "פנייה ב-WhatsApp",
     "demo_open": "דברו איתנו",
-    "demo_msg": "שלום! אשמח לשמוע על פיתוח אתר למותג שלי, פונה בעקבות צפייה בדמו של {name}.‏",
+    "demo_msg": "היי! ראיתי את הדמו של {name} — אשמח לאתר כזה עבור העסק שלי.‏",
     "gallery_s": "גלריה",
     "gallery_h1": "אש",
     "gallery_h2": "בפרטים הקטנים",
@@ -361,7 +367,10 @@ export const DICTS = {
     "gal5": "נתחים פרוסים עם פלר דה סל",
     "gal_open": "פתיחת תמונה",
     "gal_prev": "התמונה הקודמת",
-    "gal_next": "התמונה הבאה"
+    "gal_next": "התמונה הבאה",
+    "demo_strip": "דמו · Erythro.ai",
+    "demo_cta": "רוצה אתר כזה",
+    "demo_more": "לצפייה בעבודות נוספות"
   },
   ar: {
     "loading": "جاري التحميل...‏",
@@ -469,7 +478,7 @@ export const DICTS = {
     "demo_p": "هذا مشروع عرض تجريبي (Demo). لبناء تجربة رقمية مصممة خصيصاً لعلامتكم التجارية، تواصلوا معنا.‏",
     "demo_wa": "محادثة عبر WhatsApp",
     "demo_open": "تواصل معنا",
-    "demo_msg": "مرحباً! أود مناقشة مشروع رقمي لعلامتي التجارية بعد الاطلاع على العرض التجريبي لـ {name}.‏",
+    "demo_msg": "مرحباً! شاهدت العرض التجريبي لـ {name} — وأريد موقعاً مماثلاً لنشاطي التجاري.‏",
     "gallery_s": "المعرض",
     "gallery_h1": "النار",
     "gallery_h2": "في أدق التفاصيل",
@@ -482,6 +491,9 @@ export const DICTS = {
     "gal5": "شرائح ستيك مع زهرة الملح",
     "gal_open": "فتح الصورة",
     "gal_prev": "الصورة السابقة",
-    "gal_next": "الصورة التالية"
+    "gal_next": "الصورة التالية",
+    "demo_strip": "عرض تجريبي · Erythro.ai",
+    "demo_cta": "أريد موقعاً كهذا",
+    "demo_more": "عرض المزيد من الأعمال"
   },
 } as const satisfies Record<string, Record<string, string>>;

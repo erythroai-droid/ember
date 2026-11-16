@@ -5,7 +5,7 @@ import Preloader from '@/components/Preloader';
 import Cursor from '@/components/Cursor';
 import ScrollTop from '@/components/ScrollTop';
 import AiChat from '@/components/AiChat';
-import DemoNotice from '@/components/DemoNotice';
+import StudioBar from '@/components/StudioBar';
 import Film from '@/components/Film';
 import { Contact, Craft, Cuts, Experience, Feast, Gallery, Hero, Rails } from '@/components/Scenes';
 import { gsap, prefersReducedMotion, ScrollSmoother, SmoothScroll, ScrollTrigger, useScrollReady } from '@/lib/scroll';
@@ -17,7 +17,9 @@ import { gsap, prefersReducedMotion, ScrollSmoother, SmoothScroll, ScrollTrigger
 export default function Page() {
   const [pct, setPct] = useState(0);
   const [active, setActive] = useState(0);
-  useEffect(() => { if (window.scrollY > 300) setPct(100); }, []);   // restored scroll far down: don't hold the page behind the preloader
+  // no blocking preloader where ad traffic lands (phones / tablets) or on a restored scroll: the first frame paints at once,
+  // the rest of the film streams in behind the page. Desktop keeps the short preloader (a coarse pass of the frames).
+  useEffect(() => { if (window.scrollY > 300 || window.matchMedia('(max-width: 900px)').matches) setPct(100); }, []);
   return (
     <>
       <Preloader pct={pct} />
@@ -26,7 +28,7 @@ export default function Page() {
       <Rails active={active} />
       <ScrollTop />
       <AiChat />
-      <DemoNotice />
+      <StudioBar />
       <Cursor />
       <SmoothScroll><Content active={active} /></SmoothScroll>
     </>

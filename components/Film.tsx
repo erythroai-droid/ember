@@ -37,6 +37,15 @@ const ORDER = (() => {
 const COARSE = Math.ceil(FRAMES / 4);
 
 /**
+ * Intro: the film starts moving by itself as soon as its first frame is in (ad visitors decide within 1–3 s, before any
+ * touch): it plays up to INTRO_F over INTRO_MS, then waits for the scroll. The scroll takes over from there — the shown
+ * frame is max(scroll frame, intro frame), so nothing jumps back.
+ */
+const INTRO_F = Math.round(SCENES[1].f * 0.62);
+const INTRO_MS = 2200;
+const introEase = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+/**
  * The fixed film behind the page. The frame follows the sections: when scene i's top is at the top of the screen the film
  * shows SCENES[i].f, and it plays through to the next scene's frame while that section scrolls by. The last scene runs to
  * LAST_FRAME as the contact block rises. Measured from getBoundingClientRect, so it tracks the smoothed (ScrollSmoother)
@@ -50,7 +59,8 @@ export default function Film({ onLoadProgress, onScene }: Props) {
     const reduced = prefersReducedMotion();
     let pack: Pack = pickPack();
     let imgs: (HTMLImageElement | null)[] = [];
-    let gen = 0, cssW = 0, cssH = 0, cur = 0, drawn = -1, scene = -1, raf = 0, first = true, last = 0;
+    let gen = 0, cssW = 0, cssH = 0, cur = 0, drawn = -1, scene = -1, raf = 0, first = true, last = 0, introAt = 0;
+    const intro = (now: number) => (reduced || !introAt ? 0 : INTRO_F * introEase(Math.min(1, Math.max(0, (now - introAt) / INTRO_MS))));
 
     const load = () => {
       const g = ++gen;
@@ -66,7 +76,11 @@ export default function Film({ onLoadProgress, onScene }: Props) {
           if (g === 1 && n <= COARSE) onLoadProgress?.(Math.round((n / COARSE) * 100));
           drawn = -1;
         };
-        im.onload = () => { if (g === gen) imgs[i] = im; fin(); };
+        im.onload = () => {
+          if (g === gen) imgs[i] = im;
+          if (i === 0 && !introAt) introAt = performance.now() + 250;   // start the intro once the first frame can show
+          fin();
+        };
         im.onerror = fin;
         im.src = pack === 'p' ? portraitPath(i) : landscapePath(pack, i);
       });
@@ -145,7 +159,8 @@ export default function Film({ onLoadProgress, onScene }: Props) {
 
     const tick = () => {
       raf = requestAnimationFrame(tick);
-      const { f, i } = target();
+      const t0 = target(), i = t0.i;
+      const f = Math.max(t0.f, intro(performance.now()));
       if (i !== scene) { scene = i; onScene?.(i); }
       // time-based easing (~90 ms): the same feel at 30, 60 or 120 Hz and no lag when the browser throttles frames
       const now = performance.now(), dt = last ? Math.min(250, now - last) : 16;

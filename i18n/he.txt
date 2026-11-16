@@ -118,3 +118,7 @@ gallery_hint = החליקו או לחצו להגדלה
 gal_open = פתיחת תמונה
 gal_prev = התמונה הקודמת
 gal_next = התמונה הבאה
+demo_strip = דמו · Erythro.ai
+demo_cta = רוצה אתר כזה
+demo_msg = היי! ראיתי את הדמו של {name} — אשמח לאתר כזה עבור העסק שלי.‏
+demo_more = לצפייה בעבודות נוספות

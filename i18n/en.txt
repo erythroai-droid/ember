@@ -118,3 +118,7 @@ gallery_hint = Drag a photo around, or click to take a closer look
 gal_open = Open photo
 gal_prev = Previous photo
 gal_next = Next photo
+demo_strip = Demo · Erythro.ai
+demo_cta = I want a site like this
+demo_msg = Hi! I saw the {name} demo and I'd love a site like this for my business.
+demo_more = View more work
