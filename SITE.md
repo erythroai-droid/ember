@@ -95,7 +95,7 @@ https://<slug>.erythro.ai/?utm_source=facebook&utm_medium=paid&utm_campaign=<nam
 |---|---|---|---|
 | page view | auto | `page_view` | `PageView` |
 | card shown / closed / reopened | `demo_notice_*` | same names | — |
-| WhatsApp click (conversion) | `demo_whatsapp_click` | `whatsapp_click` + `generate_lead {method: whatsapp}` | `Contact` + `Lead` |
+| WhatsApp click (not a lead: opening WhatsApp ≠ sending) | `demo_whatsapp_click` | `whatsapp_click` | `Contact` |
 | form sent | `contact_form_submit` | `generate_lead {method: form}` | `Lead` |
 | form failed | `contact_form_error` | same | — |
 | scroll depth | — | `scroll {percent_scrolled: 25/50/75}` (+90 from enhanced measurement) | — |

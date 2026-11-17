@@ -34,7 +34,11 @@ const ORDER = (() => {
   if (!seen.has(FRAMES - 1)) out.splice(1, 0, FRAMES - 1);
   return out;
 })();
-const COARSE = Math.ceil(FRAMES / 4);
+/** The preloader waits only for the first coarse pass (every 8th frame + the last one: 28 frames, ~3.7 MB of the 1920 pack);
+ *  the rest streams in afterwards and draw() shows the nearest loaded frame meanwhile. */
+const COARSE = Math.ceil(FRAMES / 8);
+/** Fired on window (and html[data-film-coarse]) once the coarse pass is in: below-the-fold media waits for it. */
+export const FILM_COARSE = 'film-coarse';
 
 /**
  * Intro: the film starts moving by itself as soon as its first frame is in (ad visitors decide within 1–3 s, before any
@@ -66,14 +70,23 @@ export default function Film({ onLoadProgress, onScene }: Props) {
       const g = ++gen;
       imgs = new Array(FRAMES).fill(null);
       let n = 0;
-      ORDER.forEach((i, k) => {
+      // the first coarse pass at full priority; the fill-in is only requested once it is in (= when the preloader clears),
+      // so it does not share the bandwidth with the frames the preloader waits for
+      const head = ORDER.slice(0, COARSE + 1), tail = ORDER.slice(COARSE + 1);
+      const one = (i: number, k: number) => {
         const im = new Image();
         im.decoding = 'async';
-        // first 2 coarse passes at full priority, the fill-in later so it does not compete with the preloader
-        if (k > COARSE) (im as HTMLImageElement & { fetchPriority?: string }).fetchPriority = 'low';
+        if (k >= head.length) (im as HTMLImageElement & { fetchPriority?: string }).fetchPriority = 'low';
         const fin = () => {
           n++;
-          if (g === 1 && n <= COARSE) onLoadProgress?.(Math.round((n / COARSE) * 100));
+          if (g === 1 && n <= head.length) onLoadProgress?.(Math.round((n / head.length) * 100));
+          if (n === head.length && g === gen) {
+            if (!document.documentElement.dataset.filmCoarse) {          // first: the gallery queues its prints ahead of the fill-in
+              document.documentElement.dataset.filmCoarse = '1';
+              window.dispatchEvent(new Event(FILM_COARSE));
+            }
+            tail.forEach((j, t) => one(j, head.length + t));
+          }
           drawn = -1;
         };
         im.onload = () => {
@@ -83,7 +96,8 @@ export default function Film({ onLoadProgress, onScene }: Props) {
         };
         im.onerror = fin;
         im.src = pack === 'p' ? portraitPath(i) : landscapePath(pack, i);
-      });
+      };
+      head.forEach(one);
     };
 
     const ok = (i: number) => !!imgs[i] && imgs[i]!.naturalWidth > 0;

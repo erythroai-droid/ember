@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import Reveal from './Reveal';
 import CountUp from './CountUp';
 import { OPEN_CONTACT } from './Header';
+import { FILM_COARSE } from './Film';
 import { useI18n } from '@/lib/i18n';
 import { gsap, goToSection, lockScroll, prefersReducedMotion, useScrollReady } from '@/lib/scroll';
 import { BRAND, CUTS, GALLERY, MODEL, pad, SCENES } from '@/lib/site';
@@ -145,8 +146,22 @@ export function Gallery() {
 
   const raise = useCallback((i: number) => setOrder((o) => [...o.filter((k) => k !== i), i]), []);
 
-  // decode ahead: a big photo decoded only when it lands would show as an empty frame for a moment
-  useEffect(() => { table.current?.querySelectorAll('img').forEach((img) => { img.decode?.().catch(() => {}); }); }, []);
+  // The prints are loading="lazy" so they do not compete with the film's preloader frames at page start. The moment the
+  // film's coarse pass is in (the preloader clears), fetch them at high priority: the film's fill-in frames start at the
+  // same time at low priority, and ~0.6 MB of prints must not queue behind ~25 MB of frames. Then decode ahead: a big photo
+  // decoded only when it lands would show as an empty frame for a moment.
+  useEffect(() => {
+    const start = () => {
+      table.current?.querySelectorAll('img').forEach((img) => {
+        (img as HTMLImageElement & { fetchPriority?: string }).fetchPriority = 'high';
+        img.loading = 'eager';
+        img.decode?.().catch(() => {});
+      });
+    };
+    if (document.documentElement.dataset.filmCoarse) start();
+    else window.addEventListener(FILM_COARSE, start, { once: true });
+    return () => window.removeEventListener(FILM_COARSE, start);
+  }, []);
 
   // desktop: pin + deal the prints in with the scroll
   useEffect(() => {
@@ -244,6 +259,7 @@ export function Gallery() {
                   width={1000}
                   height={Math.round(1000 / g.a)}
                   alt={t(`gal${g.n}`)}
+                  loading="lazy"
                   decoding="async"
                   draggable={false}
                 />

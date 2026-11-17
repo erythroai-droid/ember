@@ -524,10 +524,15 @@ html.has-studio .hdr{inset-block-start:var(--strip)}
   background:linear-gradient(to top,rgba(8,6,5,.92) 0%,rgba(8,6,5,.75) 60%,rgba(8,6,5,0) 100%)}
 .studio-cta{pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:54px;padding-inline:28px;border-radius:40px;
   background:#c9a063;color:#17110b;font:600 13px/1 var(--font-main),sans-serif;letter-spacing:.16em;text-transform:uppercase;
-  box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 0 rgba(201,160,99,.5);animation:ctaPulse 2.6s ease-in-out infinite;transition:background .25s,transform .25s}
+  position:relative;box-shadow:0 10px 30px rgba(0,0,0,.45);transition:background .25s,transform .25s}
+/* the pulse ring: transform + opacity only (compositor), instead of an animated box-shadow that repainted the button every frame */
+/* (a gold plate behind the button that grows ~10px past its edge and fades, the same look as the old 0 → 10px spread) */
+.studio-cta::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:#c9a063;pointer-events:none;
+  opacity:.45;animation:ctaPulse 2.6s ease-in-out infinite}
 .studio-cta:hover{background:#dcb87e;transform:translateY(-2px)}
+.studio-cta:hover::after{animation:none;opacity:0}
 .studio-cta svg{flex:none}
-@keyframes ctaPulse{0%,100%{box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 0 rgba(201,160,99,.45)}50%{box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 10px rgba(201,160,99,0)}}
+@keyframes ctaPulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:0;transform:scale(1.06,1.37)}}
 html:is([lang=he],[lang=ar]) .studio-cta{font-size:15px;letter-spacing:0}
 
 /* floating buttons ride above the bar; the page end is not hidden under it */
@@ -545,7 +550,7 @@ html.has-studio .scn-hint{bottom:calc(var(--sbar) + 2vh)}
   html.has-studio .totop{inset-block-end:calc(var(--sbar) + 72px)}
   html.has-studio .scn{padding-block-end:calc(12vh + var(--sbar) * .6)}
 }
-@media (prefers-reduced-motion:reduce){.studio-strip i,.studio-cta{animation:none}}
+@media (prefers-reduced-motion:reduce){.studio-strip i,.studio-cta{animation:none}.studio-cta::after{display:none}}
 
 /* ---------- studio strip: demo tag at the start, portfolio link at the end ---------- */
 .studio-strip{justify-content:space-between;padding-inline:var(--gx)}
@@ -565,6 +570,7 @@ html:is([lang=he],[lang=ar]) .studio-more{letter-spacing:0}
   .studio-cta{width:100%;max-width:none;height:calc(58px + env(safe-area-inset-bottom));padding:0 20px env(safe-area-inset-bottom);
     border-radius:0;font-size:14px;letter-spacing:.14em;animation:none;box-shadow:0 -10px 30px rgba(0,0,0,.45)}
   .studio-cta:hover{transform:none}
+  .studio-cta::after{display:none}
   html:is([lang=he],[lang=ar]) .studio-cta{font-size:16px;letter-spacing:0}
   html.has-studio .ctc{padding-block-end:calc(24px + var(--sbar) + env(safe-area-inset-bottom))}
 }

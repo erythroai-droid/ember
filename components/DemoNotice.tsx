@@ -115,7 +115,6 @@ export default function DemoNotice() {
             onClick={() => {
               trackDemo('demo_whatsapp_click', { opened_by: openedBy.current || 'button', lang, ...(src ? { source: src } : {}) });
               fbTrack('Contact', { content_name: 'whatsapp' });
-              fbTrack('Lead', { content_name: 'whatsapp' });
             }}>
             <WaIcon /> {t('demo_wa')}
           </a>
